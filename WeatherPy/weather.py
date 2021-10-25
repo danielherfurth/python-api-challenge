@@ -1,4 +1,4 @@
-#!
+# %%
 # region
 # Dependencies and Setup
 import matplotlib.pyplot as plt
@@ -9,8 +9,11 @@ from scipy.stats import linregress
 from citipy import citipy  # Incorporated citipy to determine city based on latitude and longitude
 # Import API key
 from config import weather_api_key
+from iso3166 import countries_by_alpha2
 
 
+# %%
+# %%
 def k_to_c(temp):
     return temp - 273.15
 
@@ -54,21 +57,31 @@ temp_dict = {}
 ol = []
 i, j = 0, 0
 
+# %%
 for city in cities:
-    search_str = f'http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}'
-    resp = requests.get(search_str)
-    if resp.status_code == 200:
-        if i < 500:
+    if i < 500:
+        search_str = f'http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}'
+        resp = requests.get(search_str)
+
+        if resp.status_code == 200:
             resp = resp.json()
             vs = [
-                    resp['coord']['lat'],
+                    resp['coord'],
                     k_to_c(resp['main']['temp']),
                     resp['main']['humidity'],
                     kmh_to_mph(resp['wind']['speed']),
+                    # resp['sys']['country'],
+                    countries_by_alpha2[resp['sys']['country']][0]
             ]
             i += 1
             temp_dict[city] = vs
-        print(f'Request {j}: {city} request successful.')
+            print(f'Request {j}: {city} request successful.')
+        else:
+            print(f'Request {j}: {city} request failed.')
+        j += 1
     else:
-        print(f'Request {j}: {city} request failed.')
-    j += 1
+        print(
+                '500 successful requests made.'
+                f'{round(i/j*100, 2)}% of requests succeeded.'
+        )
+        break
