@@ -16,48 +16,6 @@ pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 1000)
 # endregion
 
-#region
-# def spaceless_lowers(dataframe):
-#     """
-#     Params:
-#         dataframe: a dataframe with columns that have spaces and uppercase letters
-#     Returns:
-#         a dataframe with the spaces replaced with _ and all caps made lowercase.
-#     """
-#     try:
-#         cols = dataframe.columns
-#         cols = [col.replace(' ', '_').lower() for col in cols]
-#         dataframe.columns = cols
-#
-#         return dataframe
-#
-#     except NameError:
-#         print('There is an unresolved reference to the dataframe in the function\'s argument.\n'
-#               'Make sure that the dataframe has been read and defined.')
-#
-#
-# def find_cities():
-#     for r, d, files in os.walk('.'):
-#         for name in files:
-#             if name == 'cities.csv':
-#                 data = os.path.join(r, name)
-#                 return data
-#
-#
-# def k_to_f(temp):
-#     temp = round((temp - 273.15) * 9 / 5 + 32, 2)
-#     return temp
-#
-#
-# def kmh_to_mph(speed):
-#     return speed * 0.621371
-#
-#
-# def north_or_south(latitude):
-#     return latitude < 0
-#
-
-
 df = pd.read_csv(r'./WeatherPy/cities_2.csv')
 
 df.rename(columns={'Unnamed: 0': 'city'}, inplace=True)
@@ -90,18 +48,18 @@ fig.add_layer(heatmap)
 
 
 # select decent weather
-
 temp_mask = df['max_temp'].between(70, 90)
 humid_mask = df['humidity'].between(50, 90)
 cloud_mask = df['clouds'] < 8
 
 # mask based on conditions
 masked_df = df[temp_mask & humid_mask & cloud_mask]
+
 # print(len(masked_df))
 # check for nulls
 masked_df.isna().sum()
 len(masked_df)
-#%%
+
 # find hotels within 5e3 m of my locations
 hotels = []
 
@@ -128,18 +86,13 @@ for i in masked_df['city']:
         hotels.append(np.nan)
         print(f'Unable to find {i}.')
 
-# %%
-
-# hotels_found = [resp['results'][i]['name'] for i in range(len(resp['results']))]
-# print(hotels_found)
 
 hotel_names = [outputs[i]['name'] for i in range(len(masked_df.city))]
 print(len(hotel_names) == len(masked_df.city))
 masked_df['hotel'] = hotel_names
 
-# %%
 masked_df.reset_index(drop=True)
-# %%
+
 # Using the template add the hotel marks to the heatmap
 info_box_template = """
 <dl>
@@ -152,8 +105,6 @@ info_box_template = """
 # NOTE: be sure to update with your DataFrame name
 hotel_info = [info_box_template.format(**row) for index, row in masked_df.iterrows()]
 locations = masked_df[["lat", "long"]]
-# %%
 
 markers = gmaps.marker_layer(locations, info_box_content=hotel_info)
 fig.add_layer(markers)
-# %%
