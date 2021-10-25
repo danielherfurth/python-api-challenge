@@ -1,4 +1,3 @@
-# %%
 # region
 # Dependencies and Setup
 import matplotlib.pyplot as plt
@@ -12,8 +11,6 @@ from config import weather_api_key
 from iso3166 import countries_by_alpha2
 
 
-# %%
-# %%
 def k_to_c(temp):
     return temp - 273.15
 
@@ -57,7 +54,6 @@ temp_dict = {}
 ol = []
 i, j = 0, 0
 
-# %%
 for city in cities:
     if i < 500:
         search_str = f'http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}'
