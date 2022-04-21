@@ -1,0 +1,6 @@
+![Clouds vs Lat](WeatherPy/graphs/Clouds%20(%25)%20vs.%20Latitude.png)
+![Humidity vs Lat](WeatherPy/graphs/Humidity%20(%25)%20vs.%20Latitude.png)
+![Temp vs Lat](WeatherPy/graphs/Max%20Temperature%20(F)%20vs.%20Latitude.png)
+![Temp vs Lat -- North](WeatherPy/graphs/North%20-%20Max%20Temperature%20(F)%20vs%20Latitude.png)
+![Temp vs Lat -- South](WeatherPy/graphs/South%20-%20Max%20Temperature%20(F)%20vs%20Latitude.png)
+![Wind Speed vs Lat](WeatherPy/graphs/Wind%20Speed%20(mph)%20vs.%20Latitude.png)
